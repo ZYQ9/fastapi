@@ -14,10 +14,10 @@ async def root():
 async def read_item(test_id: int):
     return {"test_id": test_id}
 
-@app.get("/name/")
-async def read_item(skip: int = 0,limit: int = 10):
-    return fake_items[skip:skip+limit]
+@app.get("/name")
+async def read_item():
+    return fake_items
 
 @app.get("/list/{list_item}")
-async def read_item(list_item: int | None = None):
+async def read_item(list_item: int):
     return fake_items[list_item]
