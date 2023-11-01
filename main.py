@@ -14,5 +14,5 @@ async def read_item(test_id: int):
 fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" : "Beth"},{"name" : "Jerry"}]
 
 @app.get("/name/")
-async def read_item():
-    return fake_items.values()
+async def read_item(skip,limit):
+    return fake_items[skip:skip+limit]
