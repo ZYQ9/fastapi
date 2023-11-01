@@ -5,7 +5,7 @@ app = FastAPI()
 
 fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" : "Beth"},{"name" : "Jerry"}]
 
-# Creates the root directory, this is required
+# Creates the root directory
 @app.get("/")
 async def root():
     return {"message":"Hello World"}
@@ -21,4 +21,3 @@ async def read_item(skip: int = 0,limit: int = 10):
 @app.get("/list/{list_item}")
 async def read_item(list_item: int | None = None):
     return fake_items[list_item]
-    
