@@ -10,3 +10,9 @@ async def root():
 @app.get("/test/{test_id}")
 async def read_item(test_id: int):
     return {"test_id": test_id}
+
+fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" : "Beth"},{"name" : "Jerry"}]
+
+@app.get("/name/")
+async def read_item():
+    return fake_items[]
