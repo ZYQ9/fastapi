@@ -1,6 +1,9 @@
 from fastapi import FastAPI 
 from pydantic import BaseModel
 
+class Item(BaseModel):
+    name: str
+
 app = FastAPI()
 
 fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" : "Beth"},{"name" : "Jerry"}]
@@ -21,3 +24,7 @@ async def read_item():
 @app.get("/list/{list_item}")
 async def read_item(list_item: int):
     return fake_items[list_item]
+
+@app.post("/post")
+async def create_item(item: Item)
+    return item
