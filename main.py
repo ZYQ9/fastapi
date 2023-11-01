@@ -3,6 +3,8 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
+fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" : "Beth"},{"name" : "Jerry"}]
+
 # Creates the root directory, this is required
 @app.get("/")
 async def root():
@@ -11,8 +13,6 @@ async def root():
 @app.get("/test/{test_id}")
 async def read_item(test_id: int):
     return {"test_id": test_id}
-
-fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" : "Beth"},{"name" : "Jerry"}]
 
 @app.get("/name/")
 async def read_item(skip: int = 0,limit: int = 10):
