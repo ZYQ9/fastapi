@@ -26,5 +26,5 @@ async def read_item(list_item: int):
     return fake_items[list_item]
 
 @app.post("/post")
-async def create_item(item: Item)
+async def create_item(item: Item):
     return item
