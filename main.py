@@ -1,6 +1,11 @@
 from fastapi import FastAPI 
+from pydantic import BaseModel
 
 app = FastAPI()
+
+class Item(BaseModel):
+    name: str
+
 
 # Creates the root directory, this is required
 @app.get("/")
@@ -16,3 +21,7 @@ fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" :
 @app.get("/name/")
 async def read_item(skip: int = 0,limit: int = 10):
     return fake_items[skip:skip+limit]
+
+@app.put("/name/{name_id}")
+async def create_item(name_id: int, fake_items: Item):
+    return {"item_id": name_id, **fake_items.dict()}
