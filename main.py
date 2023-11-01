@@ -15,4 +15,4 @@ fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" :
 
 @app.get("/name/")
 async def read_item():
-    return fake_items[]
+    return fake_items[skip : skip + limit]
