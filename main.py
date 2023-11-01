@@ -22,6 +22,7 @@ fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" :
 async def read_item(skip: int = 0,limit: int = 10):
     return fake_items[skip:skip+limit]
 
-@app.put("/name/{name_id}")
-async def create_item(name_id: int, fake_items: Item):
-    return {"item_id": name_id, **fake_items.dict()}
+@app.get("/list/")
+async def read_item():
+    for keys,value in fake_items.items():
+        return fake_items.items()
