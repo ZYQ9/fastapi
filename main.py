@@ -24,5 +24,4 @@ async def read_item(skip: int = 0,limit: int = 10):
 
 @app.get("/list/")
 async def read_item():
-    for keys,value in fake_items.items():
-        return fake_items.items()
+    return list(fake_items.values())
