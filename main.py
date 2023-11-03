@@ -13,10 +13,12 @@ fake_items = [{"name" : "Rick"},{"name" : "Morty"},{"name" : "Summer"},{"name" :
 async def root():
     return {"message":"Hello World"}
 
+# Path Parameter
 @app.get("/test/{test_id}")
 async def read_item(test_id: int):
     return {"test_id": test_id}
 
+# Query Parameters
 @app.get("/name")
 async def read_item():
     return fake_items
@@ -28,3 +30,4 @@ async def read_item(list_item: int):
 @app.post("/post")
 async def create_item(item: Item):
     return item
+
