@@ -75,7 +75,7 @@ print('\n')
 print(df2)
 
 if df1.labname.isin(df2.Title) == True:
-    return
+    print('Items in SC and LoD')
 elif df1.labname.isin(df2.Title) == False:
     print(f'{df1.value()} needs to be added to SC')
 elif df2.Title.isin(df1.labname) == False:
