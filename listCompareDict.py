@@ -72,3 +72,7 @@ df2 = pd.DataFrame(list2)
 print(df1.loc[0,'labname'])
 print('\n')
 print(df2.loc[0,'Title'])
+
+test_zip = zip(df1,df2)
+
+print(list(test_zip))
