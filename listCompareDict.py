@@ -10,6 +10,10 @@ list1 = [
     {
         "labname": "ngfw",
         "status": "dev"
+    },
+    {
+        "labname": "fortigate",
+        "status": "dev"
     }
 ]
  
@@ -26,10 +30,6 @@ list2 = [
         "Title": "ngfw",
         "asgsclod": "dev"
     },
-    {
-        "Title": "fortigate",
-        "asgsclod": "dev"
-    }
 ]
 
 def compare_lists(list1,list2):
