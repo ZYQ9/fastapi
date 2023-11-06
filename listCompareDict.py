@@ -68,10 +68,17 @@ compare_lists(list1,list2)
 
 df1 = pd.DataFrame(list1)
 df2 = pd.DataFrame(list2)
-df2.rename(columns={'Title':'labname'},inplace=True)
+# df2.rename(columns={'Title':'labname'},inplace=True)
 
 print(df1)
 print('\n')
 print(df2)
 
-print(df1.labname.isin(df2.labname))
+if df1.labname.isin(df2.Title) == True:
+    break
+elif df1.labname.isin(df2.Title) == False:
+    print(f'{df1.value()} needs to be added to SC')
+elif df2.Title.isin(df1.labname) == False:
+    print(f'{df2.value()} needs to be added to LoD')
+
+    
