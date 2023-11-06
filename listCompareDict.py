@@ -74,3 +74,4 @@ print(df1)
 print('\n')
 print(df2)
 
+pd.merge(df1, df2, on=['labname'], how='inner')
