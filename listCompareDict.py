@@ -89,3 +89,5 @@ missing_in_df1 = df2.loc[~df2['Title'].isin(df1['labname'])]
 print(missing_in_df2)
 print('\n')
 print(missing_in_df1)
+
+print(missing_in_df1['labname'])
