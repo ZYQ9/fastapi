@@ -37,6 +37,10 @@ list2 = [
         "Title": "ngfw",
         "asgsclod": "dev"
     },
+    {
+        "Title": "Cisco",
+        "asgsclod": "dev"
+    }
 ]
 
 def compare_lists(list1,list2):
