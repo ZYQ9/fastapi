@@ -67,7 +67,7 @@ compare_lists(list1,list2)
 # print(compare_lists2(list1,list2))
 
 df1 = pd.DataFrame(list1)
-df2 = pd.DataFrame(list2, columns=["labname"])
+df2 = pd.DataFrame(list2)
 
 
 print(df1)
