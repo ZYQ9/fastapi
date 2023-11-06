@@ -36,7 +36,7 @@ def compare_lists(list1,list2):
             print(f"check {item1['labname']} status")
 
     for item2 in list2:
-        if not any(item1["labname"] == item2["Title"] for item1 in db_list):
+        if not any(item1["labname"] == item2["Title"] for item1 in list1):
             print(f"{item2['Title']} needs to be added")
 
 compare_lists(list1,list2)
