@@ -55,4 +55,3 @@ def compare_lists(list1,list2):
             print(f"{item2['Title']} needs to be added")
 
 compare_lists(list1,list2)
-
