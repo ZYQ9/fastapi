@@ -25,6 +25,10 @@ list2 = [
     {
         "Title": "ngfw",
         "asgsclod": "dev"
+    },
+    {
+        "Title": "fortigate",
+        "asgsclod": "dev"
     }
 ]
 
