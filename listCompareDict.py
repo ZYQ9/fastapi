@@ -29,11 +29,14 @@ list2 = [
 ]
 
 def compare_lists(list1,list2):
-    set_list1 = set(tuple(d.items()) for d in list1)
-    set_list2 = set(tuple(d.items()) for d in list2)
+    for item1 in list1:
+        if not any(item2["Title"] == item["labname"] for item2 in list2):
+            print(f"{item1['labname']} needs to be deleted")
+        else:
+            print(f"check {item1['labname']} status")
 
-    set_diff = set_list1.symmetric_difference(set_list2)
+    for item2 in list2:
+        if not any(item1["labname"] == item2["Title"] for item1 in db_list):
+            print(f"{item2['Title']} needs to be added")
 
-    return set_diff
-
-print(compare_lists(list1,list2))
+compare_lists(list1,list2)
