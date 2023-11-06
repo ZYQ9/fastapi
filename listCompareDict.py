@@ -67,12 +67,10 @@ compare_lists(list1,list2)
 # print(compare_lists2(list1,list2))
 
 df1 = pd.DataFrame(list1)
-df2 = pd.DataFrame(list2)
+df2 = pd.DataFrame(list2, columns=["labname"])
 
-print(df1.loc[0,'labname'])
+
+print(df1)
 print('\n')
-print(df2.loc[0,'Title'])
+print(df2)
 
-test_zip = zip(list1,list2)
-
-print(list(test_zip))
