@@ -68,14 +68,14 @@ compare_lists(list1,list2)
 
 df1 = pd.DataFrame(list1)
 df2 = pd.DataFrame(list2)
-df2.rename(columns={'Title':'labname','asgclod':'status'},inplace=True)
+# df2.rename(columns={'Title':'labname','asgclod':'status'},inplace=True)
 
 print(df1)
 print('\n')
 print(df2)
 print('\n')
 
-missing_in_df2 = df1.loc[~df1['labname'].isin(df2['labname'])]
+missing_in_df2 = df1.loc[~df1['labname'].isin(df2['Title'])]
 
 print(missing_in_df2)
 print('\n')
@@ -83,3 +83,5 @@ print('\n')
 df2 = pd.concat([df2,missing_in_df2],ignore_index=True)
 
 print(df2)
+
+# missing_in_df1 = df2.loc[~df2['Title']]
