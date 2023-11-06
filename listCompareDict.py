@@ -17,6 +17,10 @@ list1 = [
     {
         "labname": "fortigate",
         "status": "dev"
+    },
+    {
+        "labname": "pan",
+        "status": "dev"
     }
 ]
  
@@ -79,8 +83,6 @@ missing_in_df2 = df1.loc[~df1['labname'].isin(df2['Title'])]
 
 print(missing_in_df2)
 print('\n')
-
-df2 = pd.concat([df2,missing_in_df2],ignore_index=True)
 
 print(df2)
 
