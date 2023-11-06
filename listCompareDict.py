@@ -78,6 +78,6 @@ missing_in_df2 = df1.loc[~df1['labname'].isin(df2['Title'])]
 
 print(missing_in_df2)
 
-df2 = df2.concat(missing_in_df2,ignore_index=True)
+pd.concat([df2,missing_in_df2])
 
 print(df2)
