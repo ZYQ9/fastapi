@@ -70,5 +70,5 @@ df1 = pd.DataFrame(list1)
 df2 = pd.DataFrame(list2)
 
 print(df1)
-print(\n)
+print('\n')
 print(df2)
