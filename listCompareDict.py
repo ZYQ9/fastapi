@@ -48,22 +48,27 @@ def compare_lists(list1,list2):
 
 compare_lists(list1,list2)
 
-def compare_lists2(list1: list,list2: list) -> bool: 
+# def compare_lists2(list1: list,list2: list) -> bool: 
 
-    df1 = pd.DataFrame(list1)
-    df2 = pd.DataFrame(list2)
-    diff = dataframe_difference(df1,df2)
-    result = len(diff) == 0
-    if not result:
-        print(f'There are {len(diff)} differences: \n {diff.head()}')
-    return result
+#     df1 = pd.DataFrame(list1)
+#     df2 = pd.DataFrame(list2)
+#     diff = dataframe_difference(df1,df2)
+#     result = len(diff) == 0
+#     if not result:
+#         print(f'There are {len(diff)} differences: \n {diff.head()}')
+#     return result
 
-def dataframe_difference(df1: DataFrame, df2: DataFrame) -> DataFrame:
+# def dataframe_difference(df1: DataFrame, df2: DataFrame) -> DataFrame:
     
-    comparison_df = df1.merge(df2, indicator=True, how='outer')
-    diff_df = comparison_df[comparison_df['merge'] != 'both']
-    return diff_df
+#     comparison_df = df1.merge(df2, indicator=True, how='outer')
+#     diff_df = comparison_df[comparison_df['merge'] != 'both']
+#     return diff_df
 
+# print(compare_lists2(list1,list2))
 
+df1 = pd.DataFrame(list1)
+df2 = pd.DataFrame(list2)
 
-print(compare_lists2(list1,list2))
+print(df1)
+print(\n)
+print(df2)
