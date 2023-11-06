@@ -33,3 +33,7 @@ def compare_lists(list1,list2):
     set_list2 = set(tuple(d.items()) for d in list2)
 
     set_diff = set_list1.symmetric_difference(set_list2)
+
+    return set_diff
+
+print(compare_lists(list1,list2))
