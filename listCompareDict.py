@@ -73,6 +73,6 @@ print(df1.loc[0,'labname'])
 print('\n')
 print(df2.loc[0,'Title'])
 
-test_zip = zip(df1,df2)
+test_zip = zip(list1,list2)
 
 print(list(test_zip))
