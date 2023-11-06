@@ -30,7 +30,7 @@ list2 = [
 
 def compare_lists(list1,list2):
     for item1 in list1:
-        if not any(item2["Title"] == item["labname"] for item2 in list2):
+        if not any(item2["Title"] == item1["labname"] for item2 in list2):
             print(f"{item1['labname']} needs to be deleted")
         else:
             print(f"check {item1['labname']} status")
