@@ -74,4 +74,4 @@ print(df1)
 print('\n')
 print(df2)
 
-print(pd.merge(df1, df2, on=['labname'], how='inner'))
+print(df1.labname.isin(df2.labname))
