@@ -74,10 +74,6 @@ print(df1)
 print('\n')
 print(df2)
 
-if df1.labname.isin(df2.Title) == True:
-    print('Items in SC and LoD')
-elif df1.labname.isin(df2.Title) == False:
-    print(f'{df1.value()} needs to be added to SC')
-elif df2.Title.isin(df1.labname) == False:
-    print(f'{df2.value()} needs to be added to LoD')
+missing_in_df2 = df1.loc[~df1['labname'].isin(df2['Title'])]
 
+print(missing_in_df2)
