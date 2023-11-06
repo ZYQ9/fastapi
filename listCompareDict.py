@@ -73,11 +73,13 @@ df2 = pd.DataFrame(list2)
 print(df1)
 print('\n')
 print(df2)
+print('\n')
 
 missing_in_df2 = df1.loc[~df1['labname'].isin(df2['Title'])]
 
 print(missing_in_df2)
+print('\n')
 
-pd.concat([df2,missing_in_df2])
+df2 = pd.concat([df2, pd.DataFrame.from_dict(missing_in_df2,orient='index')],ignore_index=True)
 
 print(df2)
