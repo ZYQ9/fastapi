@@ -68,7 +68,7 @@ compare_lists(list1,list2)
 
 df1 = pd.DataFrame(list1)
 df2 = pd.DataFrame(list2)
-
+df2.rename(columns={"Title":"labname"})
 
 print(df1)
 print('\n')
