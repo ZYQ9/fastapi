@@ -25,8 +25,8 @@ class Stores(Base):
 class Join(Base):
     __tablename__ = "join"
 
-    store_id: Mapped[Integer] = mapped_column(primary_key=True, ForeignKey("stores.id"))
-    food_id: Mapped[Integer] = mapped_column(primary_key=True, ForeignKey("food.id"))
+    store_id: Mapped[Integer] = mapped_column( ForeignKey("stores.id"),primary_key=True)
+    food_id: Mapped[Integer] = mapped_column(ForeignKey("food.id"),primary_key=True)
     inventory: Mapped[Integer] = mapped_column()
 
     food: Mapped[List[Food]] = relationship(back_populates="join_food")
