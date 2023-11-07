@@ -3,12 +3,14 @@ from sqlalchemy.orm import relationship, mapped_column, Mapped
 
 from .database import Base
 
-class User(Base):
+class Food(Base):
     __tablename__ = "food"
 
     id: Mapped[Integer] = mapped_column(primary_key=True)
     name: Mapped[String] = mapped_column()
     price: Mapped[String] = mapped_column()
+
+
 
 class Stores(Base):
     __tablename__ = "stores"
