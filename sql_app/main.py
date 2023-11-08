@@ -26,6 +26,9 @@ async def create_food(
     food: schemas.Food,
     db: Session = Depends(get_db)
 ):
+    db_food = crud.get_food_by_id(db, id=food.id)
+    if db_food:
+        raise HTTPException(status_code=400, detail="Food item exists")
     return crud.create_food(db=db, food=food)
 
 
