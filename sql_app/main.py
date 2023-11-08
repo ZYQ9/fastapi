@@ -33,7 +33,7 @@ async def create_food(
 
 @app.get("/inventory/store/{id}", response_model=schemas.StoreResponse)
 async def get_inventory_by_store(
-    id: int
+    id: int,
     db: Session = Depends(get_db)
 ):
     return crud.get_inventory_by_store(db, id=id)
