@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from . import models, schemas 
 
+# Food table functions
 def get_food(db: Session):
     return db.query(models.Food).all()
 
@@ -14,3 +15,18 @@ def create_food(db: Session, food: schemas.Food):
     db.refresh(db_food)
     return db_food
 
+# Stores table functions
+def get_stores(db: Session):
+    return db.query(models.Stores).all()
+
+def get_store_by_id(db: Session, id: int):
+    return db.query(models.Stores).filter(models.Stores.id == id).first()
+
+
+# Join table functions
+def get_inventory_by_store(db: Session, id: id.int):
+    db_inv = db.query(models.Stores).join(models.Join).filter(models.Stores.id == id).first()
+
+    store_resp = schemas.StoreResponse(id=db_inv.id, state=db_inv.state, name=db_inv.name)
+
+    return store_resp

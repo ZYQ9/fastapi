@@ -31,5 +31,10 @@ async def create_food(
         raise HTTPException(status_code=400, detail="Food item exists")
     return crud.create_food(db=db, food=food)
 
-
+@app.get("/inventory/store/{id}", response_model=schemas.StoreResponse)
+async def get_inventory_by_store(
+    id: int
+    db: Session = Depends(get_db)
+):
+    return crud.get_inventory_by_store(db, id=id)
 

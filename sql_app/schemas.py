@@ -27,3 +27,5 @@ class JoinBase(BaseModel):
 class Join(JoinBase):
     inventory: int
 
+class StoreResponse(Store):
+    stores: list[Join]
