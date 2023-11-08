@@ -10,7 +10,7 @@ class Food(Base):
     name: Mapped[String] = mapped_column()
     price: Mapped[String] = mapped_column()
 
-    join_food: Mapped[list[Join]] = relationship(back_populates="food")
+    join_food: Mapped[list["Join"]] = relationship(back_populates="food")
 
 
 class Stores(Base):
@@ -20,7 +20,7 @@ class Stores(Base):
     name: Mapped[String] = mapped_column()
     state: Mapped[String] = mapped_column()
 
-    join_stores: Mapped[list[Join]] = relationship(back_populates="stores")
+    join_stores: Mapped[list["Join"]] = relationship(back_populates="stores")
 
 class Join(Base):
     __tablename__ = "join"
@@ -29,5 +29,5 @@ class Join(Base):
     food_id: Mapped[Integer] = mapped_column(ForeignKey("food.id"),primary_key=True)
     inventory: Mapped[Integer] = mapped_column()
 
-    food: Mapped[list[Food]] = relationship(back_populates="join_food")
-    stores: Mapped[list[Stores]] = relationship(back_populates="join_stores")
+    food: Mapped[list["Food"]] = relationship(back_populates="join_food")
+    stores: Mapped[list["Stores"]] = relationship(back_populates="join_stores")
