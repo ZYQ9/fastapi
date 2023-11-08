@@ -3,19 +3,23 @@ from pydantic import BaseModel, ConfigDict
 class FoodBase(BaseModel):
     model_config = ConfigDict(from_attributes=True, arbitrary_types_allowed=True)
     
-    name: str
+    id: int
+    
     
 class Food(FoodBase):
-    id: int
+    
+    name: str
     price: str
 
 class StoreBase(BaseModel):
     model_config = ConfigDict(from_attributes=True, arbitrary_types_allowed=True)
     
-    name: str
+    id: int 
+    
 
 class Store(StoreBase):
-    id: int 
+    
+    name: str
     state: str
 
 class JoinBase(BaseModel):
