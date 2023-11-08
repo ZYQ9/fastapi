@@ -24,7 +24,7 @@ def get_store_by_id(db: Session, id: int):
 
 
 # Join table functions
-def get_inventory_by_store(db: Session, id: id):
+def get_inventory_by_store(db: Session, id: int):
     db_inv = db.query(models.Stores).join(models.Join).filter(models.Stores.id == id).first()
 
     store_resp = schemas.StoreResponse(id=db_inv.id, name=db_inv.name, state=db_inv.state)
