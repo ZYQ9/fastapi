@@ -1,13 +1,18 @@
 from sqlalchemy.orm import Session
 from . import models, schemas 
 
+#---------------------------------
 # Food table functions
+#---------------------------------
+
+#* GET Functions
 def get_food(db: Session):
     return db.query(models.Food).all()
 
 def get_food_by_id(db: Session, id: int):
     return db.query(models.Food).filter(models.Food.id == id).first()
 
+#* POST Functions
 def create_food(db: Session, food: schemas.Food):
     db_food = models.Food(id=food.id, name=food.name, price=food.price)
     db.add(db_food)
@@ -15,7 +20,11 @@ def create_food(db: Session, food: schemas.Food):
     db.refresh(db_food)
     return db_food
 
-# Stores table functions
+#---------------------------------
+# Store table functions
+#---------------------------------
+
+#* GET Functions
 def get_stores(db: Session):
     return db.query(models.Stores).all()
 
@@ -23,7 +32,11 @@ def get_store_by_id(db: Session, id: int):
     return db.query(models.Stores).filter(models.Stores.id == id).first()
 
 
+#---------------------------------
 # Join table functions
+#---------------------------------
+
+#* GET Functions
 def get_inventory_by_store(db: Session, id: int):
     db_inv = db.query(models.Stores).join(models.Join).filter(models.Stores.id == id).first()
 

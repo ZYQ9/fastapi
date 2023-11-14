@@ -23,7 +23,7 @@ async def read_food(db: Session = Depends(get_db)):
     return food
 
 # API request to create food
-@app.post("/food/create", response_model=schemas.Food,status_code=201)
+@app.post("/food", response_model=schemas.Food,status_code=201)
 async def create_food(
     food: schemas.Food,
     db: Session = Depends(get_db)
