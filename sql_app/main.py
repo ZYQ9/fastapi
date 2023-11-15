@@ -16,6 +16,10 @@ def get_db():
     finally:
         db.close()
 
+# -----------------------------------------------------------------
+# Food API Endpoints
+# -----------------------------------------------------------------
+
 # API request to get food 
 @app.get("/food", response_model=list[schemas.Food])
 async def read_food(db: Session = Depends(get_db)):
@@ -38,6 +42,26 @@ async def create_food(
     
     return crud.create_food(db=db, food=food)
 
+# API request to modify price of food
+@app.patch("/food/{food_name}", response_model=schemas.Food, status_code=201)
+async def modify_price(
+    food_name,
+    price: int,
+    db: Session = Depends(services.get_db)
+):
+    return crud.modify_food_price(db, food_name, price)
+
+# -----------------------------------------------------------------
+# Store API Endpoints
+# -----------------------------------------------------------------
+
+
+
+
+# -----------------------------------------------------------------
+# Join API Endpoints
+# -----------------------------------------------------------------
+
 # API request to get inventory by store
 @app.get("/inventory/store/{id}", response_model=schemas.StoreResponse)
 async def get_inventory_by_store(
@@ -45,4 +69,3 @@ async def get_inventory_by_store(
     db: Session = Depends(get_db)
 ):
     return crud.get_inventory_by_store(db, id=id)
-
