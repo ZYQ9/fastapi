@@ -52,7 +52,7 @@ async def modify_price(
     return crud.modify_food_price(db, food_name, price)
 
 # API request to delete a food item
-@app.delete("/food/{food_id}", response_model=schemas.Food,status_code=201)
+@app.delete("/food/{food_id}", status_code=204)
 async def delete_food(
     food_id,
     db: Session = Depends(get_db)
@@ -86,7 +86,7 @@ async def create_store(
     
     return crud.create_store(db=db, store=store)
 
-@app.delete("/store", response_model=schemas.Store, status_code=201)
+@app.delete("/store/{store_id}", status_code=204)
 async def delete_store(
     store_id,
     db: Session = Depends(get_db)
