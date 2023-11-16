@@ -59,7 +59,7 @@ def delete_store(db: Session, id: int):
     db.commit()
 
 #---------------------------------
-# Join table functions
+# Inventory table functions
 #---------------------------------
 
 #* GET Functions

@@ -68,7 +68,7 @@ async def delete_food(
 
 
 # -----------------------------------------------------------------
-# Join API Endpoints
+# Inventory API Endpoints
 # -----------------------------------------------------------------
 
 # API request to get inventory by store
