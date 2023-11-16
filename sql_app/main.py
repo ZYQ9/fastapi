@@ -91,7 +91,7 @@ async def delete_store(
     store_id,
     db: Session = Depends(get_db)
 ):
-    crud.delete_food(db, store_id)
+    crud.delete_store(db, store_id)
 
 # -----------------------------------------------------------------
 # Inventory API Endpoints
