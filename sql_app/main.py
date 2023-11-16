@@ -80,7 +80,7 @@ async def create_store(
     store: schemas.Store,
     db: Session = Depends(get_db)
 ):
-    db_store = crud.get_stores_by_id(db, id=store.id)
+    db_store = crud.get_store_by_id(db, id=store.id)
     if db_store:
         raise HTTPException(status_code=400, detail="Store item exists")
     
