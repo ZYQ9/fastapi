@@ -45,7 +45,7 @@ def get_store_by_id(db: Session, id: int):
     return db.query(models.Stores).filter(models.Stores.id == id).first()
 
 #* POST Functions
-def create_store(db: Session, store: schemas.Stores):
+def create_store(db: Session, store: schemas.Store):
     db_store = models.Stores(id=store.id, name=store.name, state=store.state)
     db.add(db_store)
     db.commit()
