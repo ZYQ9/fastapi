@@ -64,8 +64,10 @@ async def delete_food(
 # Store API Endpoints
 # -----------------------------------------------------------------
 
-
-
+@app.get("/store", response_model=list[schemas.Store])
+async def get_stores(db: Session = Depends(get_db))
+    store = crud.get_stores(db)
+    return store
 
 # -----------------------------------------------------------------
 # Inventory API Endpoints
