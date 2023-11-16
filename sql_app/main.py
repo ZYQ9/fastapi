@@ -47,7 +47,7 @@ async def create_food(
 async def modify_price(
     food_name,
     price: int,
-    db: Session = Depends(services.get_db)
+    db: Session = Depends(get_db)
 ):
     return crud.modify_food_price(db, food_name, price)
 
@@ -55,7 +55,7 @@ async def modify_price(
 @app.delete("/food/{food_id}", response_model=schemas.Food,status_code=201)
 async def delete_food(
     food_id,
-    db: Session = Depends(services.get_db)
+    db: Session = Depends(get_db)
 ):
     crud.delete_food(db, food_id)
 
