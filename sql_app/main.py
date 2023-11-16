@@ -86,6 +86,13 @@ async def create_store(
     
     return crud.create_store(db=db, store=store)
 
+@app.delete("/store", response_model=schemas.Store, status_code=201)
+async def delete_store(
+    store_id,
+    db: Session = Depends(get_db)
+):
+    crud.delete_food(db, store_id)
+
 # -----------------------------------------------------------------
 # Inventory API Endpoints
 # -----------------------------------------------------------------
