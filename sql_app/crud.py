@@ -29,7 +29,7 @@ def modify_food_price(db: Session, name: str, price: str):
 
 #* DELETE Functions
 def delete_food(db: Session, id: int):
-    food = db.query(models.Food).filter(models.Food.id == id)
+    food = db.query(models.Food).filter(models.Food.id == id).first()
     db.delete(food)
     db.commit()
 
@@ -54,7 +54,7 @@ def create_store(db: Session, store: schemas.Store):
 
 #* DELETE Functions
 def delete_store(db: Session, id: int):
-    store = db.query(models.Stores).filter(models.Stores.id == id)
+    store = db.query(models.Stores).filter(models.Stores.id == id).first()
     db.delete(store)
     db.commit()
 
