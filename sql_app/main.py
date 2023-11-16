@@ -59,7 +59,6 @@ async def delete_food(
 ):
     crud.delete_food(db, food_id)
 
-
 # -----------------------------------------------------------------
 # Store API Endpoints
 # -----------------------------------------------------------------
@@ -76,6 +75,16 @@ async def get_stores_by_id(
 ):
     return crud.get_store_by_id(db,id)
 
+@app.post("/store", response_model=schemas.Store, status_code=201)
+async def create_store(
+    store: schemas.Store,
+    db: Session = Depends(get_db)
+):
+    db_store = crud.get_stores_by_id(db, id=store.id)
+    if db_store:
+        raise HTTPException(status_code=400, detail="Store item exists")
+    
+    return crud.create_store(db=db, store=store)
 
 # -----------------------------------------------------------------
 # Inventory API Endpoints
