@@ -65,7 +65,7 @@ async def delete_food(
 # -----------------------------------------------------------------
 
 @app.get("/store", response_model=list[schemas.Store])
-async def get_stores(db: Session = Depends(get_db))
+async def get_stores(db: Session = Depends(get_db)):
     store = crud.get_stores(db)
     return store
 
