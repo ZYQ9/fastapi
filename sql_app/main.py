@@ -46,7 +46,7 @@ async def create_food(
 @app.patch("/food/{food_name}", response_model=schemas.Food, status_code=201)
 async def modify_price(
     food_name,
-    price: int,
+    price: str,
     db: Session = Depends(get_db)
 ):
     return crud.modify_food_price(db, food_name, price)
