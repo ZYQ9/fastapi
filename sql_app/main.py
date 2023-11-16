@@ -69,6 +69,14 @@ async def get_stores(db: Session = Depends(get_db)):
     store = crud.get_stores(db)
     return store
 
+@app.get("/store/{id}", response_model=schemas.Store, status_code=201)
+async def get_stores_by_id(
+    id: int,
+    db: Session = Depends(get_db)
+):
+    return crud.get_store_by_id(db,id)
+
+
 # -----------------------------------------------------------------
 # Inventory API Endpoints
 # -----------------------------------------------------------------
