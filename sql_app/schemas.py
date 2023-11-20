@@ -1,5 +1,15 @@
 from pydantic import BaseModel, ConfigDict
 
+# Authentication Schemas
+
+class User(BaseModel):
+    username: str
+    email: str | None = None
+    full_name: str | None = None
+    disabled: bool | None = None
+
+
+# DB Schemas
 class FoodBase(BaseModel):
     model_config = ConfigDict(from_attributes=True, arbitrary_types_allowed=True)
     

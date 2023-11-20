@@ -15,6 +15,19 @@ app = FastAPI(title="Testing-App")
 # Authentication requirements
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
+def fake_decode_token(token):
+    return schemas.User(
+        username=token + "fakedecoded", email = "earl@example.com", full_name = "Earl OConnor"
+    )
+
+async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    user = fake_decode_token(token)
+    return user
+
+@app.get("/user")
+async def read_users_me(current_user: Annotated[schemas.User, Depends(get_current_user)]):
+    return current_user
+
 # Dependency
 def get_db():
     db = SessionLocal()
