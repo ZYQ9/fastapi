@@ -4,9 +4,16 @@ from sqlalchemy.orm import Session
 from . import crud, models, schemas
 from .database import SessionLocal, engine
 
+#! Authentication imports
+from typing import Annotated
+from fastapi.security import OAuth2PasswordBearer
+
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(title="Testing-App")
+
+# Authentication requirements
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Dependency
 def get_db():

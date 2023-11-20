@@ -83,7 +83,7 @@ def add_inventory(db: Session, inv: schemas.Join):
 
 #* PATCH Functions
 def update_inventory(db: Session, store_id: int, food_id: int, inventory: int):
-    update_inv = db.query(models.Join).filter((models.Join.store_id == store_id)&(models.Join.food_id == food_id)).first()
+    update_inv = db.query(models.Join).filter(models.Join.store_id == store_id, models.Join.food_id == food_id).first()
     update_inv.inventory = inventory
     db.commit()
     return update_inv
