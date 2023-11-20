@@ -29,7 +29,9 @@ def get_db():
 
 # API request to get food 
 @app.get("/food", response_model=list[schemas.Food])
-async def read_food(db: Session = Depends(get_db)):
+async def read_food(
+    token: Annotated[str, Depends(oauth2_scheme)]
+    db: Session = Depends(get_db)):
     food = crud.get_food(db)
     return food
 
