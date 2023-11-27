@@ -1,4 +1,4 @@
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
@@ -6,7 +6,20 @@ from .database import SessionLocal, engine
 
 #! Authentication imports
 from typing import Annotated
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+
+# Fake DB
+# TODO: Remove this later
+
+fake_users_db = {
+    "johndoe": {
+        "username": "johndoe",
+        "full_name": "John Doe",
+        "email": "johndoe@example.com",
+        "hashed_password": "labadmin123",
+        "disabled": False,
+    }
+}
 
 models.Base.metadata.create_all(bind=engine)
 
