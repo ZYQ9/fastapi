@@ -133,6 +133,7 @@ async def read_food(
 
 @app.get("/")
 async def read_root():
+    logging.info('Root level accessed')
     return ("Hello World")
 
 # API request to create food
