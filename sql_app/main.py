@@ -29,8 +29,6 @@ from asgiref.wsgi import WsgiToAsgi
 # }
 
 models.Base.metadata.create_all(bind=engine)
-
-logger = logging.getLogger()
 app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
@@ -82,7 +80,7 @@ async def read_food(
 
 @app.get("/")
 async def read_root():
-    app.logger.info("Root endpoint accessed")
+    #app.logger.info("Root endpoint accessed")
     return ("Hello World")
 
 # API request to create food
