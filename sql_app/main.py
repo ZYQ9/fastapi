@@ -30,7 +30,7 @@ from asgiref.wsgi import WsgiToAsgi
 
 models.Base.metadata.create_all(bind=engine)
 
-logger = logging.getLogger("uvicorn.access")
+logger = logging.getLogger()
 app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
