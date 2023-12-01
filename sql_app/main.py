@@ -7,9 +7,9 @@ from .database import SessionLocal, engine
 #? App Insights Testing imports
 
 import logging
-from applicationinsights import TelemetryClient
-from applicationinsights.requests import WSGIApplication
-from asgiref.wsgi import WsgiToAsgi
+# from applicationinsights import TelemetryClient
+# from applicationinsights.requests import WSGIApplication
+# from asgiref.wsgi import WsgiToAsgi
 #from applicationinsights.logging import ApplicationInsightsHandler
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 
@@ -38,8 +38,9 @@ app = FastAPI(title="Testing-App")
 # Application Insights Testing
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
 
-ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/')
+ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
+#;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/
 
 #root_logger = logging.getLogger("uvicorn.access")
 #root_logger.addHandler(ai_handler)
@@ -90,7 +91,6 @@ async def read_food(
 
 @app.get("/")
 async def read_root():
-    #logger.info('Root level accessed')
     return ("Hello World")
 
 # API request to create food
