@@ -38,7 +38,7 @@ app = FastAPI(title="Testing-App")
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
 #!telemetry_client = TelemetryClient(instrumentation_key)
 
-ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/',level=logging.INFO)
+ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/')
 
 # app.add_middleware(
 #     AzureLogHandler,
@@ -46,7 +46,11 @@ ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330
 #     level=logging.INFO,
 # )
 
-logger = logging.getLogger("uvicorn").addHandler(ai_handler)
+#logger = logging.getLogger("uvicorn").addHandler(ai_handler)
+
+root_logger = logging.getLogger("uvicorn")
+root_logger.addHandler(ai_handler)
+root_logger.setLevel(logging.INFO)
 
 # Configure the logging for uvicorn
 # logging.config.dictConfig({
@@ -129,7 +133,6 @@ async def read_food(
 
 @app.get("/")
 async def read_root():
-    logger.info()
     return ("Hello World")
 
 # API request to create food
