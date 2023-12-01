@@ -6,6 +6,7 @@ from .database import SessionLocal, engine
 
 #? App Insights Testing imports
 
+import logging
 from applicationinsights import TelemetryClient
 from applicationinsights.requests import WSGIApplication
 from asgiref.wsgi import WsgiToAsgi
@@ -29,6 +30,7 @@ from asgiref.wsgi import WsgiToAsgi
 
 models.Base.metadata.create_all(bind=engine)
 
+logger = logging.getLogger("uvicorn.access")
 app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
