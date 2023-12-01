@@ -7,12 +7,17 @@ from .database import SessionLocal, engine
 #? App Insights Testing imports
 
 import logging
-# from applicationinsights import TelemetryClient
+from applicationinsights import TelemetryClient
 # from applicationinsights.requests import WSGIApplication
 # from asgiref.wsgi import WsgiToAsgi
 #from applicationinsights.logging import ApplicationInsightsHandler
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 
+#? OpenTelemetry imports
+import os
+from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
+
+from azure.monitor.opentelemetry.exporter import AzureMonitorLogExporter
 
 #! Authentication imports
 # from typing import Annotated
@@ -31,14 +36,14 @@ from opencensus.ext.azure.log_exporter import AzureLogHandler
 #     }
 # }
 
-
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
+app_insights = TelemetryClient(instrumentation_key)
 
-ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
+#! ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
 #;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/
 
