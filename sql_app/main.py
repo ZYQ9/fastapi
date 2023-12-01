@@ -34,7 +34,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
-instrumentation_key = '4962581a-d8d1-4776-825a-747cb1a97c7c'
+instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
 telemetry_client = TelemetryClient(instrumentation_key)
 
 @app.on_event("startup")
