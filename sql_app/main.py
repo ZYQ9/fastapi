@@ -6,7 +6,7 @@ from .database import SessionLocal, engine
 
 #? App Insights Testing imports
 
-import logging.config
+import logging
 from applicationinsights import TelemetryClient
 from applicationinsights.requests import WSGIApplication
 from asgiref.wsgi import WsgiToAsgi
@@ -30,7 +30,6 @@ from opencensus.ext.azure.log_exporter import AzureLogHandler
 #     }
 # }
 
-logger = logging.getLogger("uvicorn")
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
@@ -39,42 +38,44 @@ app = FastAPI(title="Testing-App")
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
 #!telemetry_client = TelemetryClient(instrumentation_key)
 
-ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey={1345b0d1-2330-4086-bc37-f378ee010f5a};IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/')
+ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/')
+
+logger = logging.getLogger("uvicorn").addHandler(ai_handler)
 
 # Configure the logging for uvicorn
-logging.config.dictConfig({
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {
-        "default": {
-            "class": "uvicorn.logging.DefaultHandler",
-            "formatter": "default",
-        },
-        # Add an additional handler for Application Insights
-        "application_insights": ai_handler,
-    },
-    "loggers": {
-        "uvicorn": {
-            "handlers": ["default", "application_insights"],
-            "level": "INFO",
-        },
-        "uvicorn.access": {
-            "handlers": ["default"],
-            "level": "INFO",
-        },
-        "application_insights": {
-            "handlers": ["application_insights"],
-            "level": "INFO",
-        },
-    },
-    "formatters": {
-        "default": {
-            "()": "uvicorn.logging.DefaultFormatter",
-            "fmt": "%(levelprefix)s %(message)s",
-            "use_colors": None,
-        },
-    },
-})
+# logging.config.dictConfig({
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "handlers": {
+#         "default": {
+#             "class": "uvicorn.logging.DefaultHandler",
+#             "formatter": "default",
+#         },
+#         # Add an additional handler for Application Insights
+#         "application_insights": ai_handler,
+#     },
+#     "loggers": {
+#         "uvicorn": {
+#             "handlers": ["default", "application_insights"],
+#             "level": "INFO",
+#         },
+#         "uvicorn.access": {
+#             "handlers": ["default"],
+#             "level": "INFO",
+#         },
+#         "application_insights": {
+#             "handlers": ["application_insights"],
+#             "level": "INFO",
+#         },
+#     },
+#     "formatters": {
+#         "default": {
+#             "()": "uvicorn.logging.DefaultFormatter",
+#             "fmt": "%(levelprefix)s %(message)s",
+#             "use_colors": None,
+#         },
+#     },
+# })
 
 # @app.on_event("startup")
 # def startup_event():
