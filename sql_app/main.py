@@ -37,65 +37,16 @@ app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
-#telemetry_client = TelemetryClient(instrumentation_key)
-
 
 ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/')
 
-# app.add_middleware(
-#     AzureLogHandler,
-#     connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/',
-#     level=logging.INFO,
-# )
-
-#logger = logging.getLogger("uvicorn").addHandler(ai_handler)
 
 root_logger = logging.getLogger("uvicorn.access")
 root_logger.addHandler(ai_handler)
-root_logger.setLevel(logging.INFO)
-
-
-# Configure the logging for uvicorn
-# logging.config.dictConfig({
-#     "version": 1,
-#     "disable_existing_loggers": False,
-#     "handlers": {
-#         "default": {
-#             "class": "uvicorn.logging.DefaultHandler",
-#             "formatter": "default",
-#         },
-#         # Add an additional handler for Application Insights
-#         "application_insights": ai_handler,
-#     },
-#     "loggers": {
-#         "uvicorn": {
-#             "handlers": ["default", "application_insights"],
-#             "level": "INFO",
-#         },
-#         "uvicorn.access": {
-#             "handlers": ["default"],
-#             "level": "INFO",
-#         },
-#         "application_insights": {
-#             "handlers": ["application_insights"],
-#             "level": "INFO",
-#         },
-#     },
-#     "formatters": {
-#         "default": {
-#             "()": "uvicorn.logging.DefaultFormatter",
-#             "fmt": "%(levelprefix)s %(message)s",
-#             "use_colors": None,
-#         },
-#     },
-# })
+#root_logger.setLevel(logging.INFO)
 
 @app.on_event("startup")
 def startup_event():
-    #Wrap the FastAPI app with wsgitoasgi for App Insights
-    # wrapped_app = WsgiToAsgi(app)
-
-    # WSGIApplication(telemetry_client, wrapped_app)
 
     logger = logging.getLogger(__name__)
     logger.addHandler(ai_handler)
