@@ -50,7 +50,7 @@ ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330
 
 #logger = logging.getLogger("uvicorn").addHandler(ai_handler)
 
-root_logger = logging.getLogger("uvicorn")
+root_logger = logging.getLogger("uvicorn.access")
 root_logger.addHandler(ai_handler)
 root_logger.setLevel(logging.INFO)
 
