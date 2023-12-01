@@ -28,7 +28,7 @@ from asgiref.wsgi import WsgiToAsgi
 #     }
 # }
 
-logger = logging.getLogger("custom_logger")
+logger = logging.getLogger("uvicorn")
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
@@ -44,34 +44,7 @@ def startup_event():
 
     WSGIApplication(telemetry_client, wrapped_app)
 
-    # Configure the logging for the 'uvicorn' logger
-    logging.config.dictConfig({
-        "version": 1,
-        "disable_existing_loggers": False,
-        "handlers": {
-            "default": {
-                "class": "uvicorn.logging.DefaultHandler",
-                "formatter": "default",
-            },
-        },
-        "loggers": {
-            "uvicorn": {
-                "handlers": ["default"],
-                "level": "INFO",
-            },
-            "custom_logger": {
-                "handlers": ["default"],
-                "level": "INFO",
-            },
-        },
-        "formatters": {
-            "default": {
-                "()": "uvicorn.logging.DefaultFormatter",
-                "fmt": "%(levelprefix)s %(message)s",
-                "use_colors": None,
-            },
-        },
-    })
+
 # Authentication requirements
 #oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
