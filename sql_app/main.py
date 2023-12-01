@@ -54,7 +54,7 @@ root_logger = logging.getLogger("uvicorn")
 root_logger.addHandler(ai_handler)
 root_logger.setLevel(logging.INFO)
 
-logger = logging.getLogger(__name__)
+
 # Configure the logging for uvicorn
 # logging.config.dictConfig({
 #     "version": 1,
@@ -90,12 +90,15 @@ logger = logging.getLogger(__name__)
 #     },
 # })
 
-# @app.on_event("startup")
-# def startup_event():
-#     #Wrap the FastAPI app with wsgitoasgi for App Insights
-#     wrapped_app = WsgiToAsgi(app)
+@app.on_event("startup")
+def startup_event():
+    #Wrap the FastAPI app with wsgitoasgi for App Insights
+    # wrapped_app = WsgiToAsgi(app)
 
-#     WSGIApplication(telemetry_client, wrapped_app)
+    # WSGIApplication(telemetry_client, wrapped_app)
+
+    logger = logging.getLogger(__name__)
+    logger.addHandler(ai_handler)
 
 
 # Authentication requirements
