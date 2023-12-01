@@ -23,7 +23,7 @@ from applicationinsights import TelemetryClient
 from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry import trace
 
-configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
+configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a',logger_name="uvicorn.access")
 
 #! Authentication imports
 # from typing import Annotated
