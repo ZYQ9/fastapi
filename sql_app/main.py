@@ -123,7 +123,7 @@ async def read_food(
 
 @app.get("/")
 async def read_root():
-    #logger.info("Root endpoint accessed")
+    logger.info()
     return ("Hello World")
 
 # API request to create food
