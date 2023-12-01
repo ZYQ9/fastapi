@@ -6,7 +6,7 @@ from .database import SessionLocal, engine
 
 #? App Insights Testing imports
 
-import logging
+import logging.config
 from applicationinsights import TelemetryClient
 from applicationinsights.requests import WSGIApplication
 from asgiref.wsgi import WsgiToAsgi
@@ -35,14 +35,52 @@ app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
-telemetry_client = TelemetryClient(instrumentation_key)
+#telemetry_client = TelemetryClient(instrumentation_key)
 
-@app.on_event("startup")
-def startup_event():
-    #Wrap the FastAPI app with wsgitoasgi for App Insights
-    wrapped_app = WsgiToAsgi(app)
+# Configure the logging for uvicorn
+logging.config.dictConfig({
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "default": {
+            "class": "uvicorn.logging.DefaultHandler",
+            "formatter": "default",
+        },
+        # Add an additional handler for Application Insights
+        "application_insights": {
+            "class": "applicationinsights.logging.ApplicationInsightsHandler",
+            "key": instrumentation_key,  # Specify the Instrumentation Key here
+        },
+    },
+    "loggers": {
+        "uvicorn": {
+            "handlers": ["default", "application_insights"],
+            "level": "INFO",
+        },
+        "uvicorn.access": {
+            "handlers": ["default"],
+            "level": "INFO",
+        },
+        "application_insights": {
+            "handlers": ["application_insights"],
+            "level": "INFO",
+        },
+    },
+    "formatters": {
+        "default": {
+            "()": "uvicorn.logging.DefaultFormatter",
+            "fmt": "%(levelprefix)s %(message)s",
+            "use_colors": None,
+        },
+    },
+})
 
-    WSGIApplication(telemetry_client, wrapped_app)
+# @app.on_event("startup")
+# def startup_event():
+#     #Wrap the FastAPI app with wsgitoasgi for App Insights
+#     wrapped_app = WsgiToAsgi(app)
+
+#     WSGIApplication(telemetry_client, wrapped_app)
 
 
 # Authentication requirements
