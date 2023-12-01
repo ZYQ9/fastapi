@@ -108,7 +108,6 @@ async def read_food(
     #token: Annotated[str, Depends(oauth2_scheme)],
     db: Session = Depends(get_db)):
     food = crud.get_food(db)
-    app_insights.track_trace(severity_level=TelemetrySeverityLevel.Verbose)
     return food
 
 @app.get("/")
