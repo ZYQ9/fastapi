@@ -7,7 +7,8 @@ from .database import SessionLocal, engine
 #? App Insights Testing imports
 
 from applicationinsights import TelemetryClient
-from applicationinsights.requests import ASGIApplication
+from applicationinsights.requests import WSGIApplication
+from asgiref.wsgi import WsgiToAsgi
 
 #! Authentication imports
 # from typing import Annotated
@@ -36,7 +37,10 @@ telemetry_client = TelemetryClient(instrumentation_key)
 
 @app.on_event("startup")
 def startup_event():
-    ASGIApplication(telemetry_client)
+    #Wrap the FastAPI app with wsgitoasgi for App Insights
+    wrapped_app = WsgiToAsgi(app)
+
+    WSGIApplication(telemetry_client, wrapped_app)
 
 # Authentication requirements
 #oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
