@@ -48,7 +48,7 @@ logging.basicConfig(level=logging.ERROR)
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("uvicorn.access")
 
-logger.setHandler(logging.StreamHandler())
+# Remove the Streamhandler
 logger.addHandler(logging.StreamHandler())
 #! ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
