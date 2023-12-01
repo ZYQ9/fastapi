@@ -12,7 +12,7 @@ from applicationinsights import TelemetryClient
 # from applicationinsights.requests import WSGIApplication
 # from asgiref.wsgi import WsgiToAsgi
 #from applicationinsights.logging import ApplicationInsightsHandler
-from opencensus.ext.azure.log_exporter import AzureLogHandler
+
 
 #? OpenTelemetry imports
 # import os
