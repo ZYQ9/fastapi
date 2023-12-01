@@ -54,6 +54,7 @@ root_logger = logging.getLogger("uvicorn")
 root_logger.addHandler(ai_handler)
 root_logger.setLevel(logging.INFO)
 
+logger = logging.getLogger(__name__)
 # Configure the logging for uvicorn
 # logging.config.dictConfig({
 #     "version": 1,
@@ -135,7 +136,7 @@ async def read_food(
 
 @app.get("/")
 async def read_root():
-    logging.info('Root level accessed')
+    logger.info('Root level accessed')
     return ("Hello World")
 
 # API request to create food
