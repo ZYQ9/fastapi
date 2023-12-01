@@ -23,7 +23,7 @@ from applicationinsights import TelemetryClient
 from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry import trace
 
-ai_handler = configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
+configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
 #! Authentication imports
 # from typing import Annotated
@@ -63,7 +63,7 @@ app = FastAPI(title="Testing-App")
 def startup_event():
 
     logger = logging.getLogger("uvicorn.access")
-    logger.addHandler(ai_handler)
+    # logger.addHandler(ai_handler)
 
 
 # Authentication requirements
