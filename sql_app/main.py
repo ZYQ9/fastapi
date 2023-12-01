@@ -12,6 +12,8 @@ from applicationinsights.requests import WSGIApplication
 from asgiref.wsgi import WsgiToAsgi
 #from applicationinsights.logging import ApplicationInsightsHandler
 from opencensus.ext.azure.log_exporter import AzureLogHandler
+from opencensus.ext.azure import metrics_exporter
+from opencensus.ext.azure.trace_exporter import AzureExporter
 
 #! Authentication imports
 # from typing import Annotated
@@ -36,7 +38,13 @@ app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
-telemetry_client = TelemetryClient(instrumentation_key)
+#telemetry_client = TelemetryClient(instrumentation_key)
+
+exporter = AzureExporter(
+    instrumentation_key=instrumentation_key
+)
+
+tracer = exporter.tracer
 
 ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/')
 
@@ -51,6 +59,10 @@ ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330
 root_logger = logging.getLogger("uvicorn")
 root_logger.addHandler(ai_handler)
 root_logger.setLevel(logging.INFO)
+
+metrics_exporter.new_metrics_exporter(
+    connection_string='InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/'
+)
 
 # Configure the logging for uvicorn
 # logging.config.dictConfig({
@@ -87,12 +99,12 @@ root_logger.setLevel(logging.INFO)
 #     },
 # })
 
-@app.on_event("startup")
-def startup_event():
-    #Wrap the FastAPI app with wsgitoasgi for App Insights
-    wrapped_app = WsgiToAsgi(app)
+# @app.on_event("startup")
+# def startup_event():
+#     #Wrap the FastAPI app with wsgitoasgi for App Insights
+#     wrapped_app = WsgiToAsgi(app)
 
-    WSGIApplication(telemetry_client, wrapped_app)
+#     WSGIApplication(telemetry_client, wrapped_app)
 
 
 # Authentication requirements
