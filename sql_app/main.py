@@ -16,11 +16,16 @@ from applicationinsights import TelemetrySeverityLevel
 from opencensus.ext.azure.log_exporter import AzureLogHandler
 
 #? OpenTelemetry imports
-import os
-from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
+# import os
+# from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
 
-from azure.monitor.opentelemetry.exporter import AzureMonitorLogExporter
+# from azure.monitor.opentelemetry.exporter import AzureMonitorLogExporter
 
+from opentelemetry.ext.azure.log_exporter import AzureLogHandler
+from opentelemetry import trace
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor
+from opentelemetry.sdk.trace.export.console import ConsoleSpanExporter
 #! Authentication imports
 # from typing import Annotated
 # from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -41,22 +46,20 @@ from azure.monitor.opentelemetry.exporter import AzureMonitorLogExporter
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
 
+# Initialize OpenTelemetry
+trace.set_tracer_provider(TracerProvider())
+tracer_provider = trace.get_tracer_provider()
+
 # Application Insights Testing
-instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
-app_insights = TelemetryClient(instrumentation_key)
+# instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
+# app_insights = TelemetryClient(instrumentation_key)
 
-logging.basicConfig(level=logging.INFO)
-logging.basicConfig(level=logging.ERROR)
-logging.basicConfig(level=logging.WARNING)
-logger = logging.getLogger("uvicorn.access")
+ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
-class ApplicationInsightsHandler(logging.Handler):
-    def emit(self, record):
-        message = self.format(record)
-        app_insights.track_trace(severity_level=TelemetrySeverityLevel.Verbose)
 
-logger.addHandler(ApplicationInsightsHandler())
-#! ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
+# Create a SimpleSpanProcessor and ConsoleSpanExporter for demonstration purposes
+span_processor = SimpleSpanProcessor(ConsoleSpanExporter())
+tracer_provider.add_span_processor(span_processor)
 
 #;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/
 
@@ -64,11 +67,11 @@ logger.addHandler(ApplicationInsightsHandler())
 #root_logger.addHandler(ai_handler)
 #root_logger.setLevel(logging.INFO)
 
-# @app.on_event("startup")
-# def startup_event():
+@app.on_event("startup")
+def startup_event():
 
-#     logger = logging.getLogger("uvicorn.access")
-#     logger.addHandler(app_insights)
+    logger = logging.getLogger("uvicorn.access")
+    logger.addHandler(ai_handler)
 
 
 # Authentication requirements
