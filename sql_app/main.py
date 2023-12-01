@@ -1,3 +1,4 @@
+from logging import LogRecord
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.orm import Session
 
@@ -8,6 +9,7 @@ from .database import SessionLocal, engine
 
 import logging
 from applicationinsights import TelemetryClient
+from applicationinsights.channel import TelemetrySeverityLevel
 # from applicationinsights.requests import WSGIApplication
 # from asgiref.wsgi import WsgiToAsgi
 #from applicationinsights.logging import ApplicationInsightsHandler
@@ -47,6 +49,13 @@ logging.basicConfig(level=logging.INFO)
 logging.basicConfig(level=logging.ERROR)
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("uvicorn.access")
+
+class ApplicationInsightsHandler(logging.Handler):
+    def emit(self, record):
+        message = self.format(record)
+        app_insights.track_trace(severity_level=TelemetrySeverityLevel.Verbose)
+
+logger.addHandler(ApplicationInsightsHandler())
 #! ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
 #;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/
@@ -96,7 +105,7 @@ async def read_food(
     #token: Annotated[str, Depends(oauth2_scheme)],
     db: Session = Depends(get_db)):
     food = crud.get_food(db)
-    app_insights.track_trace(severity_level=app_insights.VERBOSE)
+    app_insights.track_trace(severity_level=TelemetrySeverityLevel.Verbose)
     return food
 
 @app.get("/")
