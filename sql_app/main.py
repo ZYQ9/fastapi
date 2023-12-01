@@ -36,7 +36,7 @@ app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
-#!telemetry_client = TelemetryClient(instrumentation_key)
+telemetry_client = TelemetryClient(instrumentation_key)
 
 ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/')
 
@@ -87,12 +87,12 @@ root_logger.setLevel(logging.INFO)
 #     },
 # })
 
-# @app.on_event("startup")
-# def startup_event():
-#     #Wrap the FastAPI app with wsgitoasgi for App Insights
-#     wrapped_app = WsgiToAsgi(app)
+@app.on_event("startup")
+def startup_event():
+    #Wrap the FastAPI app with wsgitoasgi for App Insights
+    wrapped_app = WsgiToAsgi(app)
 
-#     WSGIApplication(telemetry_client, wrapped_app)
+    WSGIApplication(telemetry_client, wrapped_app)
 
 
 # Authentication requirements
