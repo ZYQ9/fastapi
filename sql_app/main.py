@@ -47,9 +47,6 @@ logging.basicConfig(level=logging.INFO)
 logging.basicConfig(level=logging.ERROR)
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("uvicorn.access")
-
-# Remove the Streamhandler
-logger.addHandler(logging.StreamHandler())
 #! ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
 #;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/
@@ -99,6 +96,7 @@ async def read_food(
     #token: Annotated[str, Depends(oauth2_scheme)],
     db: Session = Depends(get_db)):
     food = crud.get_food(db)
+    app_insights.track_trace(severity_level=app_insights.VERBOSE)
     return food
 
 @app.get("/")
