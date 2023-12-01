@@ -4,42 +4,55 @@ from sqlalchemy.orm import Session
 from . import crud, models, schemas
 from .database import SessionLocal, engine
 
+#? App Insights Testing imports
+
+from applicationinsights import TelemetryClient
+from applicationinsights.requests import WSGIApplication
+
 #! Authentication imports
-from typing import Annotated
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+# from typing import Annotated
+# from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
-# Fake DB
-# TODO: Remove this later
+# # Fake DB
+# # TODO: Remove this later
 
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "hashed_password": "labadmin123",
-        "disabled": False,
-    }
-}
+# fake_users_db = {
+#     "johndoe": {
+#         "username": "johndoe",
+#         "full_name": "John Doe",
+#         "email": "johndoe@example.com",
+#         "hashed_password": "labadmin123",
+#         "disabled": False,
+#     }
+# }
 
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Testing-App")
 
+# Application Insights Testing
+instrumentation_key = '4962581a-d8d1-4776-825a-747cb1a97c7c'
+telemetry_client = TelemetryClient(instrumentation_key)
+
+@app.on_event("startup")
+def startup_event():
+    WSGIApplication(telemetry_client)
+
 # Authentication requirements
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+#oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-def fake_decode_token(token):
-    return schemas.User(
-        username=token + "fakedecoded", email = "earl@example.com", full_name = "Earl OConnor"
-    )
+# def fake_decode_token(token):
+#     return schemas.User(
+#         username=token + "fakedecoded", email = "earl@example.com", full_name = "Earl OConnor"
+#     )
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-    user = fake_decode_token(token)
-    return user
+# async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+#     user = fake_decode_token(token)
+#     return user
 
-@app.get("/user")
-async def read_users_me(current_user: Annotated[schemas.User, Depends(get_current_user)]):
-    return current_user
+# @app.get("/user")
+# async def read_users_me(current_user: Annotated[schemas.User, Depends(get_current_user)]):
+#     return current_user
 
 # Dependency
 def get_db():
@@ -56,10 +69,15 @@ def get_db():
 # API request to get food 
 @app.get("/food", response_model=list[schemas.Food])
 async def read_food(
-    token: Annotated[str, Depends(oauth2_scheme)],
+    #token: Annotated[str, Depends(oauth2_scheme)],
     db: Session = Depends(get_db)):
     food = crud.get_food(db)
     return food
+
+@app.get("/")
+async def read_root():
+    app.logger.info("Root endpoint accessed")
+    return ("Hello World")
 
 # API request to create food
 @app.post("/food", response_model=schemas.Food,status_code=201)
