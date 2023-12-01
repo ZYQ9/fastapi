@@ -55,7 +55,7 @@ app_insights = TelemetryClient(instrumentation_key)
 def startup_event():
 
     logger = logging.getLogger("uvicorn.access")
-    logger.addHandler(ai_handler)
+    logger.addHandler(app_insights)
 
 
 # Authentication requirements
