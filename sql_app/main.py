@@ -43,6 +43,13 @@ app = FastAPI(title="Testing-App")
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
 app_insights = TelemetryClient(instrumentation_key)
 
+logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(level=logging.WARNING)
+logger = logging.getLogger("uvicorn.access")
+
+logger.setHandler(logging.StreamHandler())
+logger.addHandler(logging.StreamHandler())
 #! ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
 #;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/
@@ -51,11 +58,11 @@ app_insights = TelemetryClient(instrumentation_key)
 #root_logger.addHandler(ai_handler)
 #root_logger.setLevel(logging.INFO)
 
-@app.on_event("startup")
-def startup_event():
+# @app.on_event("startup")
+# def startup_event():
 
-    logger = logging.getLogger("uvicorn.access")
-    logger.addHandler(app_insights)
+#     logger = logging.getLogger("uvicorn.access")
+#     logger.addHandler(app_insights)
 
 
 # Authentication requirements
