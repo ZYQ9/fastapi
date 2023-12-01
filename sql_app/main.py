@@ -80,7 +80,7 @@ async def read_food(
 
 @app.get("/")
 async def read_root():
-    app.info("Root endpoint accessed")
+    logging.info("Root endpoint accessed")
     return ("Hello World")
 
 # API request to create food
