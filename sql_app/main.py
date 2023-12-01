@@ -10,6 +10,7 @@ import logging.config
 from applicationinsights import TelemetryClient
 from applicationinsights.requests import WSGIApplication
 from asgiref.wsgi import WsgiToAsgi
+from applicationinsights.logging import ApplicationInsightsHandler
 
 #! Authentication imports
 # from typing import Annotated
@@ -35,7 +36,9 @@ app = FastAPI(title="Testing-App")
 
 # Application Insights Testing
 instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
-#telemetry_client = TelemetryClient(instrumentation_key)
+#!telemetry_client = TelemetryClient(instrumentation_key)
+
+ai_handler=ApplicationInsightsHandler(instrumentation_key=instrumentation_key)
 
 # Configure the logging for uvicorn
 logging.config.dictConfig({
@@ -47,10 +50,7 @@ logging.config.dictConfig({
             "formatter": "default",
         },
         # Add an additional handler for Application Insights
-        "application_insights": {
-            "class": "applicationinsights.logging.ApplicationInsightsHandler",
-            "key": instrumentation_key,  # Specify the Instrumentation Key here
-        },
+        "application_insights": ai_handler,
     },
     "loggers": {
         "uvicorn": {
