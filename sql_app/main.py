@@ -7,7 +7,7 @@ from .database import SessionLocal, engine
 #? App Insights Testing imports
 
 from applicationinsights import TelemetryClient
-from applicationinsights.requests import WSGIApplication
+from applicationinsights.requests import ASGIApplication
 
 #! Authentication imports
 # from typing import Annotated
@@ -36,7 +36,7 @@ telemetry_client = TelemetryClient(instrumentation_key)
 
 @app.on_event("startup")
 def startup_event():
-    WSGIApplication(telemetry_client)
+    ASGIApplication(telemetry_client)
 
 # Authentication requirements
 #oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
