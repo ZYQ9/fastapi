@@ -20,11 +20,11 @@ from opencensus.ext.azure.log_exporter import AzureLogHandler
 
 # from azure.monitor.opentelemetry.exporter import AzureMonitorLogExporter
 
-from opentelemetry.ext.azure.log_exporter import AzureLogHandler
+from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry import trace
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import SimpleSpanProcessor
-from opentelemetry.sdk.trace.export.console import ConsoleSpanExporter
+
+ai_handler = configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
+
 #! Authentication imports
 # from typing import Annotated
 # from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -45,20 +45,13 @@ from opentelemetry.sdk.trace.export.console import ConsoleSpanExporter
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
 
-# Initialize OpenTelemetry
-trace.set_tracer_provider(TracerProvider())
-tracer_provider = trace.get_tracer_provider()
+
 
 # Application Insights Testing
 # instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
 # app_insights = TelemetryClient(instrumentation_key)
 
-ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
-
-
-# Create a SimpleSpanProcessor and ConsoleSpanExporter for demonstration purposes
-span_processor = SimpleSpanProcessor(ConsoleSpanExporter())
-tracer_provider.add_span_processor(span_processor)
+#ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
 #;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/
 
