@@ -9,7 +9,6 @@ from .database import SessionLocal, engine
 
 import logging
 from applicationinsights import TelemetryClient
-from applicationinsights import TelemetrySeverityLevel
 # from applicationinsights.requests import WSGIApplication
 # from asgiref.wsgi import WsgiToAsgi
 #from applicationinsights.logging import ApplicationInsightsHandler
