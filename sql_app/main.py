@@ -1,27 +1,16 @@
-from logging import LogRecord
 from fastapi import Depends, FastAPI, HTTPException, status
 from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
 from .database import SessionLocal, engine
 
-#? App Insights Testing imports
-
-import logging
-from applicationinsights import TelemetryClient
-# from applicationinsights.requests import WSGIApplication
-# from asgiref.wsgi import WsgiToAsgi
-#from applicationinsights.logging import ApplicationInsightsHandler
-
 
 #? OpenTelemetry imports
-# import os
-# from opentelemetry.sdk._logs.export import BatchLogRecordProcessor
 
-# from azure.monitor.opentelemetry.exporter import AzureMonitorLogExporter
-
+import logging
 from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry import trace
+from applicationinsights import TelemetryClient
 
 configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a',logger_name="uvicorn.access")
 
@@ -45,25 +34,10 @@ configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-408
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
 
-
-
-# Application Insights Testing
-# instrumentation_key = '1345b0d1-2330-4086-bc37-f378ee010f5a'
-# app_insights = TelemetryClient(instrumentation_key)
-
-#ai_handler= AzureLogHandler(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
-
-#;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/
-
-#root_logger = logging.getLogger("uvicorn.access")
-#root_logger.addHandler(ai_handler)
-#root_logger.setLevel(logging.INFO)
-
 @app.on_event("startup")
 def startup_event():
 
     logger = logging.getLogger("uvicorn.access")
-    # logger.addHandler(ai_handler)
 
 
 # Authentication requirements
