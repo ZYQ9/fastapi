@@ -34,10 +34,10 @@ configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-408
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
 
-@app.on_event("startup")
-def startup_event():
+# @app.on_event("startup")
+# def startup_event():
 
-    #logger = logging.getLogger("uvicorn.access")
+#     #logger = logging.getLogger("uvicorn.access")
 
 
 # Authentication requirements
