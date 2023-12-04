@@ -37,7 +37,7 @@ app = FastAPI(title="Testing-App")
 @app.on_event("startup")
 def startup_event():
 
-    logger = logging.getLogger("uvicorn.access")
+    #logger = logging.getLogger("uvicorn.access")
 
 
 # Authentication requirements
