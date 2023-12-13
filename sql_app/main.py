@@ -25,29 +25,29 @@ my_logger = logging.getLogger('uvicorn.access')
 my_logger.addHandler(handler)
 
 #! Authentication imports
-from typing import Annotated
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+# from typing import Annotated
+# from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
-from jose import JWTError, jwt
-from passlib.context import CryptContext
+# from jose import JWTError, jwt
+# from passlib.context import CryptContext
 
-# Secret Key to sign JWT 
-SECRET_KEY = "test-secret-key"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+# # Secret Key to sign JWT 
+# SECRET_KEY = "test-secret-key"
+# ALGORITHM = "HS256"
+# ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# # Fake DB
-# # TODO: Remove this later
+# # # Fake DB
+# # # TODO: Remove this later
 
-fake_users_db = {
-    "johndoe": {
-        "username": "johndoe",
-        "full_name": "John Doe",
-        "email": "johndoe@example.com",
-        "hashed_password": "labadmin123",
-        "disabled": False,
-    }
-}
+# fake_users_db = {
+#     "johndoe": {
+#         "username": "johndoe",
+#         "full_name": "John Doe",
+#         "email": "johndoe@example.com",
+#         "hashed_password": "labadmin123",
+#         "disabled": False,
+#     }
+# }
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
@@ -56,20 +56,20 @@ app = FastAPI(title="Testing-App")
 # def startup_event():
 
 # Authentication requirements
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-def fake_decode_token(token):
-    return schemas.User(
-        username=token + "fakedecoded", email = "earl@example.com", full_name = "Earl OConnor"
-    )
+# def fake_decode_token(token):
+#     return schemas.User(
+#         username=token + "fakedecoded", email = "earl@example.com", full_name = "Earl OConnor"
+#     )
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-    user = fake_decode_token(token)
-    return user
+# async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+#     user = fake_decode_token(token)
+#     return user
 
-@app.get("/user")
-async def read_users_me(current_user: Annotated[schemas.User, Depends(get_current_user)]):
-    return current_user
+# @app.get("/user")
+# async def read_users_me(current_user: Annotated[schemas.User, Depends(get_current_user)]):
+#     return current_user
 
 #Dependency
 def get_db():
