@@ -83,7 +83,7 @@ def get_db():
 
 # API request to get food 
 @app.get("/food", response_model=list[schemas.Food])
-async def read_food(
+async def read_food():
     with trace.get_tracer(__name__).start_as_current_span("read_food")
         #token: Annotated[str, Depends(oauth2_scheme)],
         db: Session = Depends(get_db)):
