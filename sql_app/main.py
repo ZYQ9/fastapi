@@ -23,11 +23,6 @@ exporter = AzureMonitorTraceExporter.from_connection_string(
 trace.set_tracer_provider(TracerProvider())
 trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(exporter))
 
-# logger1 = logging.getLogger('uvicorn.access')
-# logger1.setLevel(logging.INFO)
-# logger2 = logging.getLogger('uvicorn')
-# logger2.setLevel(logging.INFO)
-
 logging.basicConfig(level=logging.DEBUG)
 #! Authentication imports
 # from typing import Annotated
