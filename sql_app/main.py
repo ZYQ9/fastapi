@@ -86,7 +86,7 @@ def get_db():
 async def read_food(
     #token: Annotated[str, Depends(oauth2_scheme)],
     db: Session = Depends(get_db)):
-    with tracer.start_as_current_span("read_food"):
+    with trace.start_as_current_span("read_food"):
         food = crud.get_food(db)
         return food
 
