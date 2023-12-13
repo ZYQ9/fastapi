@@ -14,6 +14,7 @@ from azure.monitor.opentelemetry.exporter import AzureMonitorTraceExporter
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 from opentelemetry import trace
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 # configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
 exporter = AzureMonitorTraceExporter.from_connection_string(
@@ -56,6 +57,7 @@ logging.basicConfig(level=logging.DEBUG)
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
 
+FastAPIInstrumentor.instrument_app(app)
 # @app.on_event("startup")
 # def startup_event():
 
