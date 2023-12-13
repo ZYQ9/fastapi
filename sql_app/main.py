@@ -16,14 +16,14 @@ from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 # from uvicorn_logging import UvicornLogging
 
 # Configures the logs from uvicorn.access to be sent to the Application Insights
-exporter = configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
+configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
 
-tracer_provider = TracerProvider(exporter)
+# tracer_provider = TracerProvider(exporter)
 
-instrumentor = FastAPIInstrumentor()
+# instrumentor = FastAPIInstrumentor()
 
-uvicorn_logging = UvicornLogging(tracer_provider=tracer_provider)
-uvicorn_logging.install()
+# uvicorn_logging = UvicornLogging(tracer_provider=tracer_provider)
+# uvicorn_logging.install()
 
 
 #! Authentication imports
@@ -84,7 +84,7 @@ def get_db():
 # -----------------------------------------------------------------
 # Food API Endpoints
 # -----------------------------------------------------------------
-@instrumentor.instrument()
+
 # API request to get food 
 @app.get("/food", response_model=list[schemas.Food])
 async def read_food(
@@ -175,3 +175,5 @@ async def get_inventory_by_store(
     db: Session = Depends(get_db)
 ):
     return crud.get_inventory_by_store(db, id=id)
+
+FastAPIInstrumentor.insttrument_app(app)
