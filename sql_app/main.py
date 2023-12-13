@@ -176,4 +176,4 @@ async def get_inventory_by_store(
 ):
     return crud.get_inventory_by_store(db, id=id)
 
-FastAPIInstrumentor.insttrument_app(app)
+FastAPIInstrumentor.instrument_app(app)
