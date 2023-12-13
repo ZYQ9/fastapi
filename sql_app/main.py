@@ -22,7 +22,6 @@ tracer_provider = TracerProvider(exporter)
 
 instrumentor = FastAPIInstrumentor()
 
-logging.config.configure()
 uvicorn_logging = UvicornLogging(tracer_provider=tracer_provider)
 uvicorn_logging.install()
 
