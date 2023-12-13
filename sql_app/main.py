@@ -22,6 +22,8 @@ azure_exporter = AzureMonitorTraceExporter(connection_string=f"InstrumentationKe
 
 trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(azure_exporter))
 logging.basicConfig(level=logging.DEBUG)
+
+tracer = trace.get_tracer(__name__)
 #! Authentication imports
 # from typing import Annotated
 # from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -86,7 +88,7 @@ def get_db():
 async def read_food(
     #token: Annotated[str, Depends(oauth2_scheme)],
     db: Session = Depends(get_db)):
-    with trace.start_as_current_span("read_food"):
+    with tracer.start_as_current_span("read_food"):
         food = crud.get_food(db)
         return food
 
