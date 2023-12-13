@@ -10,7 +10,7 @@ import logging
 import uvicorn
 from azure.monitor.opentelemetry import configure_azure_monitor
 
-configure_azure_monitor(connection_string=f"InstrumentationKey=0f9b0b9e-8b9e-4b7e-9b0a-9b0b9e8b7e9b",logger_name='uvicorn.access')
+configure_azure_monitor(connection_string=f'InstrumentationKey=0f9b0b9e-8b9e-4b7e-9b0a-9b0b9e8b7e9b',logger_name='uvicorn.access')
 logging.basicConfig(level=logging.DEBUG)
 #! Authentication imports
 # from typing import Annotated
