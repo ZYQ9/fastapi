@@ -9,21 +9,9 @@ from .database import SessionLocal, engine
 import logging
 import uvicorn
 from azure.monitor.opentelemetry import configure_azure_monitor
-from azure.monitor.opentelemetry.exporter import AzureMonitorTraceExporter
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry import trace
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-# from opentelemetry.exporter.azuremonitor import AzureMonitorSpanExporter
-from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
-trace.set_tracer_provider(TracerProvider())
-
-azure_exporter = AzureMonitorTraceExporter(connection_string=f"InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a")
-
-trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(azure_exporter))
+configure_azure_monitor(connection_string=f"InstrumentationKey=0f9b0b9e-8b9e-4b7e-9b0a-9b0b9e8b7e9b")
 logging.basicConfig(level=logging.DEBUG)
-
-tracer = trace.get_tracer(__name__)
 #! Authentication imports
 # from typing import Annotated
 # from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
@@ -88,9 +76,8 @@ def get_db():
 async def read_food(
     #token: Annotated[str, Depends(oauth2_scheme)],
     db: Session = Depends(get_db)):
-    with tracer.start_as_current_span("read_food"):
-        food = crud.get_food(db)
-        return food
+    food = crud.get_food(db)
+    return food
 
 @app.get("/")
 async def read_root():
@@ -174,5 +161,3 @@ async def get_inventory_by_store(
     db: Session = Depends(get_db)
 ):
     return crud.get_inventory_by_store(db, id=id)
-
-FastAPIInstrumentor.instrument_app(app)
