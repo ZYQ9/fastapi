@@ -9,20 +9,10 @@ from .database import SessionLocal, engine
 import logging
 import uvicorn
 from azure.monitor.opentelemetry import configure_azure_monitor
-from applicationinsights import channel
-from applicationinsights.logging import LoggingHandler
 
 # Configures the logs from uvicorn.access to be sent to the Application Insights
-# configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a',logger_name="uvicorn.access")
+configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a',logger_name="uvicorn.access")
 
-instrumentation_key = f"InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a"
-
-telemetry_channel = channel.TelemetryChannel()
-
-# set up logging
-handler = LoggingHandler(instrumentation_key,telemetry_channel=telemetry_channel)
-my_logger = logging.getLogger('uvicorn.access')
-my_logger.addHandler(handler)
 
 #! Authentication imports
 # from typing import Annotated
