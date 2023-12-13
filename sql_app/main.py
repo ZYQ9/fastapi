@@ -13,7 +13,7 @@ from azure.monitor.opentelemetry import configure_azure_monitor
 from opentelemetry.sdk.trace import TracerProvider
 
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-from uvicron_logging import UvicornLogging
+from uvicorn_logging import UvicornLogging
 
 # Configures the logs from uvicorn.access to be sent to the Application Insights
 exporter = configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
