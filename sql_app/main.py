@@ -10,8 +10,25 @@ import logging
 import uvicorn
 from azure.monitor.opentelemetry import configure_azure_monitor
 
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.exporters import AzureMonitorExporter
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+from uvicron_logging import UvicornLogging
+
 # Configures the logs from uvicorn.access to be sent to the Application Insights
-configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a',logger_name="uvicorn.access")
+# configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a',logger_name="uvicorn.access")
+
+connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a'
+
+exporter = AzureMonitorExporter(connection_string=connection_string)
+
+tracer_provider = TracerProvider(exporter)
+
+instrumentor = FastAPIInstrumentor()
+
+logging.config.configure()
+uvicorn_logging = UvicornLogging(tracer_provider=tracer_provider)
+uvicorn_logging.install()
 
 
 #! Authentication imports
@@ -72,7 +89,7 @@ def get_db():
 # -----------------------------------------------------------------
 # Food API Endpoints
 # -----------------------------------------------------------------
-
+@instrumentor.instrument()
 # API request to get food 
 @app.get("/food", response_model=list[schemas.Food])
 async def read_food(
