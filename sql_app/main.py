@@ -16,22 +16,12 @@ from opentelemetry.sdk.trace.export import BatchSpanProcessor
 # from opentelemetry.exporter.azuremonitor import AzureMonitorSpanExporter
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 
-# Configures the logs from uvicorn.access to be sent to the Application Insights
-# configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
-
-# tracer_provider = TracerProvider(exporter)
-
-# instrumentor = FastAPIInstrumentor()
-
-# uvicorn_logging = UvicornLogging(tracer_provider=tracer_provider)
-# uvicorn_logging.install()
-
 trace.set_tracer_provider(TracerProvider())
 
 azure_exporter = AzureMonitorTraceExporter(connection_string=f"InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a")
 
 trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(azure_exporter))
-
+logging.basicConfig(level=logging.DEBUG)
 #! Authentication imports
 # from typing import Annotated
 # from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
