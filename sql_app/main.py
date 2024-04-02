@@ -8,52 +8,84 @@ import logging
 import uvicorn
 
 #! Authentication imports
-# from typing import Annotated
+
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
+from passlib.context import CryptContext
+from datetime import datetime, timedelta
 
-# from jose import JWTError, jwt
-# from passlib.context import CryptContext
+# Secret Key to sign JWT 
+SECRET_KEY = "cbbb848386d99f1b473a5f7748d878dae371fb6dca54cbd8e0fb7555b3fd27eb"
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
-# # Secret Key to sign JWT 
-# SECRET_KEY = "test-secret-key"
-# ALGORITHM = "HS256"
-# ACCESS_TOKEN_EXPIRE_MINUTES = 30
+# Fake DB
+# TODO: Remove this later
 
-# # # Fake DB
-# # # TODO: Remove this later
+fake_users_db = {
+    "johndoe": {
+        "username": "johndoe",
+        "full_name": "John Doe",
+        "email": "johndoe@example.com",
+        "hashed_password": "",
+        "disabled": False
+    }
+}
 
-# fake_users_db = {
-#     "johndoe": {
-#         "username": "johndoe",
-#         "full_name": "John Doe",
-#         "email": "johndoe@example.com",
-#         "hashed_password": "labadmin123",
-#         "disabled": False,
-#     }
-# }
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth_2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 
 models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Testing-App")
 
-FastAPIInstrumentor.instrument_app(app)
-# @app.on_event("startup")
-# def startup_event():
+def verify_password(plain_password, hashed_password):
+    return pwd_context.verify(plain_password, hashed_password)
 
-# Authentication requirements
-# oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+def get_password_hash(password):
+    return pwd_context.hash(password)
 
-# def fake_decode_token(token):
-#     return schemas.User(
-#         username=token + "fakedecoded", email = "earl@example.com", full_name = "Earl OConnor"
-#     )
+def get_user(db, username: str):
+    if username in fake_users_db:
+        user_dict = fake_users_db[username]
+        return schemas.UserInDB(**user_dict)
 
-# async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
-#     user = fake_decode_token(token)
-#     return user
+def authenticate_user(fake_db, username: str, password: str):
+    user = get_user(fake_db, username)
+    if not user:
+        return False
+    if not verify_password(password, user.hashed_password):
+        return False
+    return user
 
-# @app.get("/user")
-# async def read_users_me(current_user: Annotated[schemas.User, Depends(get_current_user)]):
-#     return current_user
+def create_access_token(data: dict, expires_delta: timedelta = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+async def get_current_user(token: str = Depends(oauth_2_scheme)):
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
+    user = get_user(fake_users_db, username)
+    if user is None:
+        raise credentials_exception
+    return user
 
 #Dependency
 def get_db():
