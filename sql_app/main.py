@@ -4,29 +4,12 @@ from sqlalchemy.orm import Session
 from . import crud, models, schemas
 from .database import SessionLocal, engine
 
-#? OpenTelemetry imports
-
 import logging
 import uvicorn
-from azure.monitor.opentelemetry import configure_azure_monitor
 
-from azure.monitor.opentelemetry.exporter import AzureMonitorTraceExporter
-from opentelemetry.sdk.trace import TracerProvider
-from opentelemetry.sdk.trace.export import BatchSpanProcessor
-from opentelemetry import trace
-from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
-# configure_azure_monitor(connection_string=f'InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a')
-
-exporter = AzureMonitorTraceExporter.from_connection_string(
-    "InstrumentationKey=1345b0d1-2330-4086-bc37-f378ee010f5a"
-)
-trace.set_tracer_provider(TracerProvider())
-trace.get_tracer_provider().add_span_processor(BatchSpanProcessor(exporter))
-
-logging.basicConfig(level=logging.DEBUG)
 #! Authentication imports
 # from typing import Annotated
-# from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 # from jose import JWTError, jwt
 # from passlib.context import CryptContext
