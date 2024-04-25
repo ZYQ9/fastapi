@@ -33,7 +33,7 @@ fake_users_db = {
 }
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-oauth_2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -69,7 +69,7 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
-async def get_current_user(token: str = Depends(oauth_2_scheme)):
+async def get_current_user(token: str = Depends(oauth2_scheme)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -80,12 +80,16 @@ async def get_current_user(token: str = Depends(oauth_2_scheme)):
         username: str = payload.get("sub")
         if username is None:
             raise credentials_exception
+        
+        token_data = schemas.TokenData(username=username)
+
     except JWTError:
         raise credentials_exception
-    user = get_user(fake_users_db, username)
+    user = get_user(fake_users_db, token_data.username)
     if user is None:
         raise credentials_exception
     return user
+
 
 #Dependency
 def get_db():
